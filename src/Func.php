@@ -240,7 +240,7 @@ Func::register('C', 1, function(Value $block): Value {
  * @return Value The standard out of the command.
  **/
 Func::register('`', 1, function(Value $command): Value {
-	return new Str(shell_exec($command->run()));
+	return new Str(shell_exec($command->run()) ?: "");
 });
 
 /**

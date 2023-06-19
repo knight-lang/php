@@ -59,7 +59,7 @@ class Func extends Value
 
 		$args = [];
 
-		for ($i=0; $i < $arity; $i++) { 
+		for ($i = 0; $i < $arity; $i++) { 
 			$next = Value::parse($stream);
 
 			if (!isset($next)) {

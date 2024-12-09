@@ -72,6 +72,17 @@ class Number extends Value
 		return (bool) $this->data;
 	}
 
+	public function toArray(): array
+	{
+		$ary = array();
+
+		for ($ele = (int) $this->data; $ele; $ele = intdiv($ele, 10)) {
+			$ary[] = new self($ele % 10);
+		}
+
+		return array_reverse($ary);
+	}
+
 	/**
 	 * Gets a string representation of this class, for debugging purposes.
 	 *
@@ -79,7 +90,7 @@ class Number extends Value
 	 **/
 	public function dump(): string
 	{
-		return "Number($this)";
+		return "" . $this;
 	}
 
 	/**

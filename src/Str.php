@@ -88,7 +88,13 @@ class Str extends Value
 	 **/
 	public function dump(): string
 	{
+		// TODO
 		return "String($this->data)";
+	}
+
+	public function toArray(): array
+	{
+		return array_map(fn($a) => new self($a), str_split($this->data));
 	}
 
 	/**

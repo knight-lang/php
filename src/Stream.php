@@ -7,11 +7,11 @@ namespace Knight;
 class Stream
 {
 	/**
-	 * The stream of text that's to be parsed.
+	 * The source of text that's to be parsed.
 	 *
 	 * @var string
 	 **/
-	private $stream;
+	private $source;
 
 	/**
 	 * Creates a new Stream for the given $source

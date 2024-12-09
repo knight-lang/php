@@ -29,7 +29,7 @@ class Nil extends Value
 	 **/
 	public function __toString(): string
 	{
-		return 'null';
+		return '';
 	}
 
 	/**
@@ -52,6 +52,11 @@ class Nil extends Value
 		return false;
 	}
 
+	public function toArray(): array
+	{
+		return [];
+	}
+
 	/**
 	 * Gets a string representation of this class, for debugging purposes.
 	 *
@@ -59,7 +64,7 @@ class Nil extends Value
 	 **/
 	public function dump(): string
 	{
-		return "Null()";
+		return 'null';
 	}
 
 	/**

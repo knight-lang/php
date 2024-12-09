@@ -66,6 +66,11 @@ class Boolean extends Value
 		return $this->data;
 	}
 
+	public function toArray(): array
+	{
+		return $this->data ? [$this] : [];
+	}
+
 	/**
 	 * Gets a string representation of this class, for debugging purposes.
 	 *
@@ -73,7 +78,7 @@ class Boolean extends Value
 	 **/
 	public function dump(): string
 	{
-		return "Boolean($this)";
+		return '' . $this;
 	}
 
 	/**

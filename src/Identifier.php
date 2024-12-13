@@ -108,6 +108,12 @@ class Identifier extends Value
 		return $this->run()->toBool();
 	}
 
+
+	public function toArray(): array
+	{
+		return $this->run()->toArray();
+	}
+
 	/**
 	 * Gets a string representation of this class, for debugging purposes.
 	 *

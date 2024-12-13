@@ -118,6 +118,19 @@ class Ary extends Value
 
 		return count($this->data) - count($other);
 	}
+
+
+	public function get(Value $start, Value $length): self
+	{
+		return new self(array_slice($this->data, $start->toInt(), $length->toInt()));
+	}
+
+	public function set(Value $start, Value $length, Value $replacement): self
+	{
+		$ary = array_merge($this->data);
+		array_splice($ary, $start->toInt(), $length->toInt(), $replacement->toArray());
+		return new self($ary);
+	}
 }
 //
 // 	/**

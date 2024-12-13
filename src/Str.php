@@ -165,4 +165,14 @@ class Str extends Value
 	{
 		return new Number(ord($this->data));
 	}
+
+	public function get(Value $start, Value $length): self
+	{
+		return new self(substr($this->data, $start->toInt(), $length->toInt()));
+	}
+
+	public function set(Value $start, Value $length, Value $replacement): self
+	{
+		return new self(substr_replace($this->data, $replacement, $start->toInt(), $length->toInt()));
+	}
 }

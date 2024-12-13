@@ -188,7 +188,12 @@ class Func extends Value
  * @return Value The string that's read from stdin.
  **/
 Func::register('P', 0, function(): Value {
-	return new Str(fgets(STDIN));
+	$line = fgets(STDIN);
+	if ($line === false) {
+		return new Nil();
+	}
+
+	return new Str(rtrim($line, "\r\n"));
 });
 
 /**
@@ -537,8 +542,8 @@ Func::register('I', 3, function(Value $cond, Value $iftrue, Value $iffalse): Val
  * @param Value $length The length of the substring.
  * @return Value The substring specified.
  **/
-Func::register('G', 3, function(Value $string, Value $start, Value $length): Value {
-	return new Str(substr($string->run(), $start->run()->toInt(), $length->run()->toInt()));
+Func::register('G', 3, function(Value $container, Value $start, Value $length): Value {
+	return $container->run()->get($start->run(), $length->run());
 });
 
 /**
@@ -555,11 +560,6 @@ Func::register('G', 3, function(Value $string, Value $start, Value $length): Val
  * @param Value $replacement The substring to use when replacing.
  * @return Value The updated sstring.
  **/
-Func::register('S', 4, function(Value $string, Value $start, Value $length, Value $replacement): Value {
-	$string = $string->run();
-	$start = $start->run()->toInt();
-	$length = $length->run()->toInt();
-	$replacement = $replacement->run();
-
-	return new Str(substr_replace($string, $replacement, $start, $length));
+Func::register('S', 4, function(Value $container, Value $start, Value $length, Value $replacement): Value {
+	return $container->run()->set($start->run(), $length->run(), $replacement->run());
 });

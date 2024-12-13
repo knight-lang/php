@@ -26,7 +26,7 @@ class Stream
 	/**
 	 * Removes all leading whitespace and comments.
 	 *
-	 * Note that, for Knight, all forms of parens (ie `[`, `]`, `(`, `)`, `{`, and `}`), as well as the colon (`:`) are
+	 * Note that, for Knight, round parens (ie `(` and `)`), as well as the colon (`:`) are
 	 * considered whitespace.
 	 *
 	 * @return void
@@ -39,12 +39,12 @@ class Stream
 	/**
 	 * Attempts to match the $regex at the start of the source.
 	 *
-	 * If the regex matches, the entire matching string will be returned by default. The `$idx` parameter can be used to
-	 * change this behaviour around.
+	 * If the regex matches, the entire matching string will be returned by default. The `$idx`
+	 * parameter can be used to change this behaviour around.
 	 *
-	 * @param string $regex The regex to match at the beginning of the string; It will have the `/m` flag applied.
+	 * @param string $regex The regex to match against at the start. Implicitly has `/m` added.
 	 * @param int $idx The index of the group to return; defaults to `0`, ie the entire match.
-	 * @return string|null Returns the matching string (or the `$idx` capture group) if `$regex` matched. Else, null.
+	 * @return ?string Returns the matching string/`$idx` capture group if `$regex` matched.
 	 **/
 	public function match(string $regex, int $idx=0): ?string
 	{

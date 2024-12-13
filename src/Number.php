@@ -184,7 +184,7 @@ class Number extends Value
 	 * @return int Returns a number less than, equal to, or greater than 0, depending on if `$rhs`, after conversion to
 	 * an int, is less than, equal to, or greater than `$this`.
 	 **/
-	protected function cmp(Value $rhs): int
+	public function cmp(Value $rhs): int
 	{
 		return $this->data <=> $rhs->toInt();
 	}

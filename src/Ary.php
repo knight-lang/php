@@ -68,7 +68,17 @@ class Ary extends Value
 	public function eql(Value $value): bool
 	{
 		// todo: array_any
-		return is_a($value, get_class($this)) && count($this->data) == count($value->data) && die('todo');
+		if (!is_a($value, get_class($this)) || count($this->data) != count($value->data)) {
+			return false;
+		}
+
+		for ($i = 0; $i < count($this->data); ++$i) {
+			if (!$this->data[$i]->eql($value->data[$i])) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	public function head(): Value
@@ -87,6 +97,26 @@ class Ary extends Value
 		}
 
 		return new self(array_slice($this->data, 1));
+	}
+
+	public function pow(Value $sep): Value
+	{
+		return new Str(implode($sep, $this->data));
+	}
+
+	public function cmp(Value $other): int
+	{
+		$other = $other->toArray();
+
+		$min = min(count($other), count($this->data));
+
+		for ($i = 0; $i < $min; ++$i) {
+			if (($cmp = $this->data[$i]->cmp($other[$i]))) {
+				return $cmp;
+			}
+		}
+
+		return count($this->data) - count($other);
 	}
 }
 //

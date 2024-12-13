@@ -141,7 +141,7 @@ class Str extends Value
 	 **/
 	public function eql(Value $value): bool
 	{
-		return is_a($value, get_class()) && $this->data === $value->data;
+		return is_a($value, get_class($this)) && $this->data === $value->data;
 	}
 
 	public function head(): self

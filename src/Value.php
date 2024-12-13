@@ -29,11 +29,11 @@ abstract class Value
 	 * @param Stream $stream The stream which will be parsed from.
 	 * @return null|Value Returns the parsed Value, or null if nothing could be parsed.
 	 **/
-	public static function parse(Stream $stream): ?Value
+	public static function parse(Stream $stream): ?self
 	{
 		$stream->strip();
 
-		foreach (Value::TYPES as $class) {
+		foreach (self::TYPES as $class) {
 			if (!is_null($value = $class::parse($stream))) {
 				return $value;
 			}

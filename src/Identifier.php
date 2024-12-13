@@ -21,7 +21,7 @@ class Identifier extends Value
 	 * @param Stream $stream The stream to read from.
 	 * @return null|Value Returns the parsed Identifier if it's able to be parsed, otherwise `null`.
 	 **/
-	public static function parse(Stream $stream): ?Value
+	public static function parse(Stream $stream): ?self
 	{
 		$match = $stream->match('[a-z_][a-z_0-9]*');
 

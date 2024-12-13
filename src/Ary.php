@@ -13,7 +13,7 @@ class Ary extends Value
 	 * @param Stream $stream The stream to read from.
 	 * @return null|Value Returns the parsed List if it's able to be parsed, otherwise `null`.
 	 **/
-	public static function parse(Stream $stream): ?Value
+	public static function parse(Stream $stream): ?self
 	{
 		return is_null($stream->match('@')) ? null : new self([]);
 	}
@@ -50,12 +50,12 @@ class Ary extends Value
 		return '[' . implode(', ', array_map(fn($x) => $x->dump(), $this->data)) . ']';
 	}
 
-	public function add(Value $rhs): Value
+	public function add(Value $rhs): self
 	{
 		return new self(array_merge($this->data, $rhs->toArray()));
 	}
 
-	public function mul(Value $rhs): Value
+	public function mul(Value $rhs): self
 	{
 		return new self(array_merge($this->data, $rhs->toArray()));
 	}
@@ -63,7 +63,7 @@ class Ary extends Value
 	public function eql(Value $value): bool
 	{
 		// todo: array_any
-		return is_a($value, get_class()) && count($this->data) == count($value->data) && die('todo');
+		return is_a($value, get_class($this)) && count($this->data) == count($value->data) && die('todo');
 	}
 
 	public function head(): Value
@@ -75,7 +75,7 @@ class Ary extends Value
 		return $this->data[0];
 	}
 
-	public function tail(): Value
+	public function tail(): self
 	{
 		if (!$this->data) {
 			throw new \Exception('tail on empty ary');
@@ -92,6 +92,6 @@ class Ary extends Value
 // 	 **/
 // 	public function eql(Value $value): bool
 // 	{
-// 		return is_a($value, get_class());
+// 		return is_a($value, get_class($this));
 // 	}
 // }

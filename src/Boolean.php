@@ -12,7 +12,7 @@ class Boolean extends Value
 	 * @param Stream $stream The stream to read from.
 	 * @return null|Value Returns the parsed Boolean if it's able to be parsed, otherwise `null`.
 	 **/
-	public static function parse(Stream $stream): ?Value
+	public static function parse(Stream $stream): ?self
 	{
 		$match = $stream->match('[TF][A-Z]*');
 
@@ -102,6 +102,6 @@ class Boolean extends Value
 	 **/
 	public function eql(Value $value): bool
 	{
-		return is_a($value, get_class()) && $this->data === $value->data;
+		return is_a($value, get_class($this)) && $this->data === $value->data;
 	}
 }

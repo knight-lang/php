@@ -14,7 +14,7 @@ class Number extends Value
 	 * @param Stream $stream The stream to read from.
 	 * @return null|Value Returns the parsed Number if it's able to be parsed, otherwise `null`.
 	 **/
-	public static function parse(Stream $stream): ?Value
+	public static function parse(Stream $stream): ?self
 	{
 		$match = $stream->match('\d+');
 
@@ -99,7 +99,7 @@ class Number extends Value
 	 * @param Value $addend The number to add to `$this`.
 	 * @return Value The result of the addition.
 	 **/
-	public function add(Value $addend): Value
+	public function add(Value $addend): self
 	{
 		return new self($this->data + $addend->toInt());
 	}
@@ -110,7 +110,7 @@ class Number extends Value
 	 * @param Value $subtrahend The number to subtract from `$this`.
 	 * @return Value The result of the subtraction.
 	 **/
-	public function sub(Value $subtrahend): Value
+	public function sub(Value $subtrahend): self
 	{
 		return new self($this->data - $subtrahend->toInt());
 	}
@@ -121,7 +121,7 @@ class Number extends Value
 	 * @param Value $multiplicand The number by which `$this` will be multiplied.
 	 * @return Value The result of the multiplication.
 	 **/
-	public function mul(Value $multiplicand): Value
+	public function mul(Value $multiplicand): self
 	{
 		return new self($this->data * $multiplicand->toInt());
 	}
@@ -133,7 +133,7 @@ class Number extends Value
 	 * @return Value The result of the division.
 	 * @throws Exception If the divisor is zero.
 	 **/
-	public function div(Value $divisor): Value
+	public function div(Value $divisor): self
 	{
 		$divisor = $divisor->toInt();
 
@@ -151,7 +151,7 @@ class Number extends Value
 	 * @return Value The result of the modular division.
 	 * @throws Exception If the base is zero.
 	 **/
-	public function mod(Value $base): Value
+	public function mod(Value $base): self
 	{
 		$base = $base->toInt();
 
@@ -168,7 +168,7 @@ class Number extends Value
 	 * @param Value $exponent The number by which `$this` will be raised.
 	 * @return Value The result of the exponentiation.
 	 **/
-	public function pow(Value $exponentiation): Value
+	public function pow(Value $exponentiation): self
 	{
 		return new self($this->data ** $exponentiation->toInt());
 	}
@@ -192,6 +192,6 @@ class Number extends Value
 	 **/
 	public function eql(Value $value): bool
 	{
-		return is_a($value, get_class()) && $this->data === $value->data;
+		return is_a($value, get_class($this)) && $this->data === $value->data;
 	}
 }

@@ -17,7 +17,7 @@ class Nil extends Value
 	 * @param Stream $stream The stream to read from.
 	 * @return null|Value Returns the parsed Nil if it's able to be parsed, otherwise `null`.
 	 **/
-	public static function parse(Stream $stream): ?Value
+	public static function parse(Stream $stream): ?self
 	{
 		return is_null($stream->match('N[A-Z]*')) ? null : new self();
 	}
@@ -74,6 +74,6 @@ class Nil extends Value
 	 **/
 	public function eql(Value $value): bool
 	{
-		return is_a($value, get_class());
+		return is_a($value, get_class($this));
 	}
 }

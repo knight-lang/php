@@ -77,7 +77,7 @@ class Func extends Value
 	 *
 	 * @var callable
 	 **/
-	private callable $func;
+	private $func;
 
 	/**
 	 * The arguments for this function.
@@ -332,7 +332,7 @@ Func::register('D', 1, function(Value $val): Value {
  * @return Nil
  **/
 Func::register('O', 1, function(Value $message): Nil {
-	$message = (string) $message->run();
+	$string = (string) $message->run();
 
 	if (substr($string, -1) === '\\') {
 		echo substr($string, 0, -1);
@@ -591,5 +591,5 @@ Func::register('G', 3, function(Value $container, Value $start, Value $length): 
  * @return Value The updated container.
  **/
 Func::register('S', 4, function(Value $container, Value $start, Value $length, Value $repl): Value {
-	return $container->run()->set($start->run(), $length->run(), $replacement->run());
+	return $container->run()->set($start->run(), $length->run(), $repl->run());
 });

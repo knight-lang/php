@@ -13,36 +13,52 @@ class Identifier extends Value
 	 *
 	 * @var array[string => Value]
 	 **/
-	private static $VARIABLES = [];
+	private static array $VARIABLES = [];
 
 	/**
 	 * Attempt to parse an Identifier from the given stream.
 	 *
 	 * @param Stream $stream The stream to read from.
-	 * @return null|Value Returns the parsed Identifier if it's able to be parsed, otherwise `null`.
+	 * @return ?self Returns the parsed Identifier if it's able to be parsed, otherwise null.
 	 **/
 	public static function parse(Stream $stream): ?self
 	{
 		$match = $stream->match('[a-z_][a-z_0-9]*');
 
-		return is_null($match) ? null : new self($match);
+		if (is_null($match)) {
+			return null;
+		}
+
+		if (!array_key_exists($match, self::$VARIABLES)) {
+			self::$VARIABLES[$match] = new self($match);
+		}
+
+		return self::$VARIABLES[$match];
 	}
+
+	/**
+	 * This Identifier's name.
+	 *
+	 * @var string
+	 **/
+	private string $name;
 
 	/**
 	 * This Identifier's value.
 	 *
-	 * @var string
+	 * @var ?Value
 	 **/
-	private $data;
+	private ?Value $value;
 
 	/**
 	 * Create a new Identifier with the given value.
 	 *
 	 * @param string $val The text of this identifier.
 	 **/
-	public function __construct(string $data)
+	public function __construct(string $name)
 	{
-		$this->data = $data;
+		$this->name = $name;
+		$this->value = null;
 	}
 
 	/**
@@ -53,13 +69,11 @@ class Identifier extends Value
 	 **/
 	public function run(): Value
 	{
-		$value = self::$VARIABLES[$this->data];
-
-		if (isset($value)) {
-			return $value;
-		} else {
-			throw new Exception("unknown variable '$this->data'!");
+		if (is_null($this->value)) {
+			throw new \Exception("unknown variable '$this->name'!");
 		}
+
+		return $this->value;
 	}
 
 	/**
@@ -72,7 +86,7 @@ class Identifier extends Value
 	 **/
 	public function assign(Value $value): void
 	{
-		self::$VARIABLES[$this->data] = $value;
+		$this->value = $value;
 	}
 
 	/**
@@ -108,6 +122,12 @@ class Identifier extends Value
 		return $this->run()->toBool();
 	}
 
+	/**
+	 * Fetches this identifier's value, then converts it to an array.
+	 *
+	 * @return bool The result of calling `toArray` on the value associated with this identifier.
+	 * @throws Exception Thrown if the variable has not been set yet.
+	 **/
 	public function toArray(): array
 	{
 		return $this->run()->toArray();
@@ -124,7 +144,7 @@ class Identifier extends Value
 	}
 
 	/**
-	 * Checks to see if `$value` is an `Identifier` and equal to `$this`.
+	 * Checks to see if `$value` is identical to `$this`.
 	 *
 	 * @return bool
 	 **/

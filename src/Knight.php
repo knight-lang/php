@@ -1,7 +1,7 @@
 <?php
 namespace Knight;
 
-require_once __DIR__  . '/Value.php';
+require_once __DIR__ . '/Value.php';
 use \Knight\Value;
 
 /**
@@ -20,11 +20,11 @@ function run(string $input): Value
 }
 
 // I don't have composer installed... So I used this hack instead.
-require_once __DIR__  . '/Stream.php';
-require_once __DIR__  . '/Nil.php';
-require_once __DIR__  . '/Number.php';
-require_once __DIR__  . '/Str.php';
-require_once __DIR__  . '/Boolean.php';
-require_once __DIR__  . '/Identifier.php';
-require_once __DIR__  . '/Func.php';
-require_once __DIR__  . '/Ary.php';
+require_once __DIR__ . '/Stream.php';
+require_once __DIR__ . '/Nil.php';
+require_once __DIR__ . '/Number.php';
+require_once __DIR__ . '/Str.php';
+require_once __DIR__ . '/Boolean.php';
+require_once __DIR__ . '/Identifier.php';
+require_once __DIR__ . '/Func.php';
+require_once __DIR__ . '/Ary.php';

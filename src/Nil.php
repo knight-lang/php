@@ -15,7 +15,7 @@ class Nil extends Value
 	 * Attempt to parse a Nil from the given stream.
 	 *
 	 * @param Stream $stream The stream to read from.
-	 * @return null|Value Returns the parsed Nil if it's able to be parsed, otherwise `null`.
+	 * @return ?self Returns the parsed Nil if it's able to be parsed, otherwise null.
 	 **/
 	public static function parse(Stream $stream): ?self
 	{
@@ -25,7 +25,7 @@ class Nil extends Value
 	/**
 	 * Converts this `Nil` to a string.
 	 *
-	 * @return string Simply `'null'`.
+	 * @return string The empty string.
 	 **/
 	public function __toString(): string
 	{
@@ -35,7 +35,7 @@ class Nil extends Value
 	/**
 	 * Converts this `Nil` to an int.
 	 *
-	 * @return int Simply `0`.
+	 * @return int Zero.
 	 **/
 	public function toInt(): int
 	{
@@ -45,13 +45,18 @@ class Nil extends Value
 	/**
 	 * Converts this `Nil` to an boolean.
 	 *
-	 * @return bool Simply `false`.
+	 * @return bool False.
 	 **/
 	public function toBool(): bool
 	{
 		return false;
 	}
 
+	/**
+	 * Converts this `Nil` to an array.
+	 *
+	 * @return array The empty array.
+	 **/
 	public function toArray(): array
 	{
 		return [];
@@ -60,7 +65,7 @@ class Nil extends Value
 	/**
 	 * Gets a string representation of this class
 	 *
-	 * @return string
+	 * @return string Literally `'null'`.
 	 **/
 	public function dump(): string
 	{

@@ -11,7 +11,7 @@ abstract class Value
 	 *
 	 * @var class[]
 	 **/
-	private const TYPES = [
+	private const array TYPES = [
 		Identifier::class,
 		Number::class,
 		Str::class,
@@ -24,7 +24,8 @@ abstract class Value
 	/**
 	 * Attempts to parse a Value from the given Stream.
 	 *
-	 * If a value is found, the stream will be updated accordingly; if nothing can be parsed, `null` will be returned.
+	 * If a value is found, the stream will be updated accordingly; if nothing can be parsed, `null`
+	 * will be returned.
 	 *
 	 * @param Stream $stream The stream which will be parsed from.
 	 * @return ?self Returns the parsed Value, or null if nothing could be parsed.
@@ -57,6 +58,13 @@ abstract class Value
 	abstract public function toBool(): bool;
 
 	/**
+	 * Converts this value to an array.
+	 *
+	 * @return array
+	 **/
+	abstract public function toArray(): array;
+
+	/**
 	 * Gets a string representation of this class
 	 *
 	 * @return string
@@ -81,31 +89,5 @@ abstract class Value
 	public function run(): Value
 	{
 		return $this;
-	}
-
-	/**
-	 * Checks to see if this value is less than the other.
-	 *
-	 * This calls the `cmp` and then checks to make sure the value is less than zero.
-	 *
-	 * @param Value $rhs The value to test against.
-	 * @return bool Returns `true` if `$this` is less than `$rhs`.
-	 */
-	public function lth(Value $rhs): bool
-	{
-		return $this->cmp($rhs) < 0;
-	}
-
-	/**
-	 * Checks to see if this value is greater than the other.
-	 *
-	 * This calls the `cmp` and then checks to make sure the value is greater than zero.
-	 *
-	 * @param Value $rhs The value to test against.
-	 * @return bool Returns `true` if `$this` is greater than `$rhs`.
-	 */
-	public function gth(Value $rhs): bool
-	{
-		return $this->cmp($rhs) > 0;
 	}
 }

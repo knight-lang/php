@@ -441,25 +441,25 @@ Func::register('^', 2, function(Value $lhs, Value $rhs): Value {
 });
 
 /**
- * Calls the `lth` function on `$lhs` with `$rhs`'s value.
+ * Calls the `cmp` function on `$lhs` with `$rhs`'s value, and sees if it's less than 0.
  *
  * @param Value $lhs
  * @param Value $rhs
  * @return Boolean True if `$lhs` is less than `$rhs`, false otherwise.
  **/
 Func::register('<', 2, function(Value $lhs, Value $rhs): Boolean {
-	return new Boolean($lhs->run()->lth($rhs->run()));
+	return new Boolean($lhs->run()->cmp($rhs->run()) < 0);
 });
 
 /**
- * Calls the `gth` function on `$lhs` with `$rhs`'s value.
+ * Calls the `cmp` function on `$lhs` with `$rhs`'s value, and sees if it's less than 0.
  *
  * @param Value $lhs
  * @param Value $rhs
  * @return Boolean True if `$lhs` is greater than `$rhs`, false otherwise.
  **/
 Func::register('>', 2, function(Value $lhs, Value $rhs): Boolean {
-	return new Boolean($lhs->run()->gth($rhs->run()));
+	return new Boolean($lhs->run()->cmp($rhs->run()) > 0);
 });
 
 /**

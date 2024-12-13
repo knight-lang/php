@@ -14,7 +14,7 @@ class Str extends Value
 	 * @param Stream $stream The stream to read from.
 	 * @return null|Value Returns the parsed Str if it's able to be parsed, otherwise `null`.
 	 **/
-	public static function parse(Stream $stream): ?Value
+	public static function parse(Stream $stream): ?self
 	{
 		$match = $stream->match("([\"'])((?:(?!\\1).|\n)*)\\1", 2);
 
@@ -34,7 +34,7 @@ class Str extends Value
 	 *
 	 * @var string
 	 **/
-	private $data;
+	private string $data;
 
 	/**
 	 * Create a new Str with the given value.
@@ -103,9 +103,9 @@ class Str extends Value
 	 * @param Value $rhs The value concatenate to this.
 	 * @return string `$this` concatenated with `$rhs` converted to a string.
 	 **/
-	public function add(Value $rhs): Value
+	public function add(Value $rhs): self
 	{
-		return new Str($this . $rhs);
+		return new self($this . $rhs);
 	}
 
 	/**
@@ -117,9 +117,9 @@ class Str extends Value
 	 * @param Value $rhs The value by which `$this` will be duplicated.
 	 * @return string `$this` duplicated `$rhs` times.
 	 **/
-	public function mul(Value $rhs): Value
+	public function mul(Value $rhs): self
 	{
-		return new Str(str_repeat($this, $rhs->toInt()));
+		return new self(str_repeat($this, $rhs->toInt()));
 	}
 
 	/**
@@ -142,5 +142,23 @@ class Str extends Value
 	public function eql(Value $value): bool
 	{
 		return is_a($value, get_class()) && $this->data === $value->data;
+	}
+
+	public function head(): self
+	{
+		if (!strlen($this->data)) {
+			throw new \Exception('head on empty str');
+		}
+
+		return new self(substr($this->data, 0, 1));
+	}
+
+	public function tail(): self
+	{
+		if (!strlen($this->data)) {
+			throw new \Exception('tail on empty str');
+		}
+
+		return new self(substr($this->data, 1));
 	}
 }

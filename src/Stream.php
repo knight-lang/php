@@ -11,7 +11,7 @@ class Stream
 	 *
 	 * @var string
 	 **/
-	private $source;
+	private string $source;
 
 	/**
 	 * Creates a new Stream for the given $source
@@ -33,7 +33,7 @@ class Stream
 	 **/
 	public function strip(): void
 	{
-		$this->source = preg_replace('/\A(?:[\]\[\s(){}:]+|\#[^\n]*(\n|$))*/m', '', $this->source);
+		$this->source = preg_replace('/\A(?:[\s():]+|\#[^\n]*(\n|$))*/m', '', $this->source);
 	}
 
 	/**

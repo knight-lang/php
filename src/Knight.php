@@ -27,3 +27,4 @@ require_once __DIR__  . '/Str.php';
 require_once __DIR__  . '/Boolean.php';
 require_once __DIR__  . '/Identifier.php';
 require_once __DIR__  . '/Func.php';
+require_once __DIR__  . '/Ary.php';

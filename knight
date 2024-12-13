@@ -3,7 +3,7 @@
 
 // declare(strict_types=1);
 
-include_once __DIR__ . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Knight.php';
+include_once __DIR__ . '/src/Knight.php';
 
 switch(count($argv) === 3 ? $argv[1] : null) {
 	case '-e':

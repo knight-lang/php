@@ -17,6 +17,7 @@ abstract class Value
 		Str::class,
 		Boolean::class,
 		Nil::class,
+		Ary::class,
 		Func::class
 	];
 

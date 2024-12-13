@@ -24,7 +24,7 @@ class Boolean extends Value
 	 *
 	 * @var bool
 	 **/
-	private $data;
+	private bool $data;
 
 	/**
 	 * Create a new Boolean with the given value.

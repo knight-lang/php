@@ -309,6 +309,19 @@ Func::register('O', 1, function(Value $message): Value {
 	return $message;
 });
 
+Func::register(',', 1, function(Value $value): Value {
+	return new Ary([$value->run()]);
+});
+
+Func::register('[', 1, function(Value $value): Value {
+	return $value->run()->head();
+});
+
+Func::register(']', 1, function(Value $value): Value {
+	return $value->run()->tail();
+});
+
+
 /**
  * Calls the `add` function on `$lhs` with `$rhs`'s value.
  *

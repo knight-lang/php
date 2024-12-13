@@ -26,7 +26,7 @@ class Number extends Value
 	 *
 	 * @var int
 	 **/
-	private $data;
+	private int $data;
 
 	/**
 	 * Create a new Number with the given value.

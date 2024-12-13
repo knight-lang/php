@@ -10,7 +10,7 @@ class Boolean extends Value
 	 * Attempt to parse a Boolean from the given stream.
 	 *
 	 * @param Stream $stream The stream to read from.
-	 * @return null|Value Returns the parsed Boolean if it's able to be parsed, otherwise `null`.
+	 * @return ?self Returns the parsed Boolean if it's able to be parsed, otherwise null.
 	 **/
 	public static function parse(Stream $stream): ?self
 	{

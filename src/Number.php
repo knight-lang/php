@@ -12,7 +12,7 @@ class Number extends Value
 	 * Attempt to parse a Number from the given stream.
 	 *
 	 * @param Stream $stream The stream to read from.
-	 * @return null|Value Returns the parsed Number if it's able to be parsed, otherwise `null`.
+	 * @return ?self Returns the parsed Number if it's able to be parsed, otherwise null.
 	 **/
 	public static function parse(Stream $stream): ?self
 	{

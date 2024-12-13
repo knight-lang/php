@@ -27,7 +27,7 @@ abstract class Value
 	 * If a value is found, the stream will be updated accordingly; if nothing can be parsed, `null` will be returned.
 	 *
 	 * @param Stream $stream The stream which will be parsed from.
-	 * @return null|Value Returns the parsed Value, or null if nothing could be parsed.
+	 * @return ?self Returns the parsed Value, or null if nothing could be parsed.
 	 **/
 	public static function parse(Stream $stream): ?self
 	{

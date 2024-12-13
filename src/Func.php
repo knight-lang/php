@@ -37,7 +37,7 @@ class Func extends Value
 	 * Parses a Func and its arguments from the stream, returning null if no function is found.
 	 *
 	 * @param Stream $stream The stream to read from.
-	 * @return ?self Returns the parsed Func if it's able to be parsed, otherwise `null`.
+	 * @return ?self Returns the parsed Func if it's able to be parsed, otherwise null.
 	 * @throws Exception Thrown if an unknown function name is parsed.
 	 * @throws Exception Thrown if an argument is missing from the function.
 	 **/

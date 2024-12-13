@@ -59,7 +59,7 @@ class Str extends Value
 	/**
 	 * Converts this Str to an int.
 	 *
-	 * @return int Simply converts to an int using PHP's conversion rules, which are the same as Knight's.
+	 * @return int Converts to an int using PHP's conversion rules, which are similar to Knight's
 	 **/
 	public function toInt(): int
 	{
@@ -74,7 +74,7 @@ class Str extends Value
 	/**
 	 * Converts this Str to an bool.
 	 *
-	 * @return bool An empty string is considered false; everything else (including `"0"` is considered true).
+	 * @return bool An empty string is false; everything else (including `"0"` is considered true).
 	 **/
 	public function toBool(): bool
 	{
@@ -91,6 +91,11 @@ class Str extends Value
 		return '"' . addcslashes($this->data, "\r\n\t\"\\") . '"';
 	}
 
+	/**
+	 * Converts this Str to an array.
+	 *
+	 * @return array An array of all the chars in the string.
+	 **/
 	public function toArray(): array
 	{
 		return array_map(fn($a) => new self($a), str_split($this->data));
@@ -100,7 +105,7 @@ class Str extends Value
 	 * Converts $rhs to a string and then adds it to the end of $this.
 	 *
 	 * @param Value $rhs The value concatenate to this.
-	 * @return string `$this` concatenated with `$rhs` converted to a string.
+	 * @return self `$this` concatenated with `$rhs` converted to a string.
 	 **/
 	public function add(Value $rhs): self
 	{
@@ -108,25 +113,25 @@ class Str extends Value
 	}
 
 	/**
-	 * Converts $rhs to an int, then repeats $this that many times.
+	 * Converts $count to an int, then repeats $this that many times.
 	 *
-	 * For example, `new Str("ab")->mul(new Str("3"))` will return `ababab`. If `$rhs` is zero, then an empty string will
-	 * be returned.
+	 * For example, `new Str("ab")->mul(new Str("3"))` will return `ababab`. If `$count` is zero,
+	 * then an empty string will be returned.
 	 *
-	 * @param Value $rhs The value by which `$this` will be duplicated.
-	 * @return string `$this` duplicated `$rhs` times.
+	 * @param Value $count The value by which `$this` will be duplicated.
+	 * @return self `$this` duplicated `$count` times.
 	 **/
-	public function mul(Value $rhs): self
+	public function mul(Value $count): self
 	{
-		return new self(str_repeat($this, $rhs->toInt()));
+		return new self(str_repeat($this, $count->toInt()));
 	}
 
 	/**
 	 * Converts the $rhs to an string, then lexicographically compares $this to it.
 	 *
-	 * @param Value $exponent The string by which `$this` will be raised.
-	 * @return int Returns a number less than, equal to, or greater than 0, depending on if `$rhs`, after conversion to
-	 * an int, is less than, equal to, or greater than `$this`.
+	 * @param Value $rhs The string by which `$this` will be raised.
+	 * @return int Returns a number less than, equal to, or greater than 0, depending on if `$rhs`,
+	 *             after conversion to an int, is less than, equal to, or greater than `$this`.
 	 **/
 	public function cmp(Value $rhs): int
 	{
@@ -144,6 +149,11 @@ class Str extends Value
 		return is_a($value, get_class($this)) && $this->data === $value->data;
 	}
 
+	/**
+	 * Returns the first character of the Str. Throws an exception if the string is empty.
+	 *
+	 * @return self
+	 **/
 	public function head(): self
 	{
 		if (!strlen($this->data)) {
@@ -153,6 +163,11 @@ class Str extends Value
 		return new self(substr($this->data, 0, 1));
 	}
 
+	/**
+	 * Returns a string of everything but the first char. Throws an exception if the string is empty.
+	 *
+	 * @return self
+	 **/
 	public function tail(): self
 	{
 		if (!strlen($this->data)) {
@@ -162,16 +177,39 @@ class Str extends Value
 		return new self(substr($this->data, 1));
 	}
 
+	/**
+	 * Returns the codepoint corresponding to the first character of the string.
+	 *
+	 * @return Number A number containing the codepoint.
+	 **/
 	public function ascii(): Number
 	{
 		return new Number(ord($this->data));
 	}
 
+	/**
+	 * Gets the substring `[$start..$start + $length)` and returns a new Str containing it.
+	 *
+	 * @param Value $start The starting position.
+	 * @param Value $length The total amount of characters in the substring.
+	 * @return Str The substring.
+	 **/
 	public function get(Value $start, Value $length): self
 	{
 		return new self(substr($this->data, $start->toInt(), $length->toInt()));
 	}
 
+	/**
+	 * Replaces the range `[$start..$start + $length)` within `$this` with `$replacement` and returns
+	 * the resulting Str.
+	 *
+	 * This doesn't modify `$this`.
+	 *
+	 * @param Value $start The starting position.
+	 * @param Value $length The total amount of characters in the substring.
+	 * @param Value $replacement The value to replace the range with.
+	 * @return Ary Str resulting string.
+	 **/
 	public function set(Value $start, Value $length, Value $replacement): self
 	{
 		return new self(substr_replace($this->data, $replacement, $start->toInt(), $length->toInt()));

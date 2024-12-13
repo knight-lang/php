@@ -90,7 +90,7 @@ class Ary extends Value
 	 * Returns a new Ary with `$this` merged with `$rhs->toArray()`.
 	 *
 	 * @param Value $rhs The array to merge onto the end of `$this`.
-	 * @return Value The result of the merge.
+	 * @return self The result of the merge.
 	 **/
 	public function add(Value $rhs): self
 	{
@@ -101,7 +101,7 @@ class Ary extends Value
 	 * Returns a new Ary with `$this` repeated `$amount` times.
 	 *
 	 * @param Value $amount The amount of times to repeat the array.
-	 * @return Value The result of the repetition.
+	 * @return self The result of the repetition.
 	 **/
 	public function mul(Value $amount): self
 	{
@@ -177,7 +177,7 @@ class Ary extends Value
 	 * Returns an array of everything but the first element. Throws an exception if the array is
 	 * empty.
 	 *
-	 * @return Value
+	 * @return self
 	 **/
 	public function tail(): self
 	{

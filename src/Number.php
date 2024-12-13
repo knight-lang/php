@@ -103,10 +103,20 @@ class Number extends Value
 	}
 
 	/**
+	 * Returns a string containing a character corresponding to the codepoint of this number.
+	 *
+	 * @return Str A string containing the codepoint.
+	 **/
+	public function ascii(): Str
+	{
+		return new Str(chr($this->data));
+	}
+
+	/**
 	 * Converts the addend to an int, and then adds it to $this.
 	 *
 	 * @param Value $addend The number to add to `$this`.
-	 * @return Value The result of the addition.
+	 * @return self The result of the addition.
 	 **/
 	public function add(Value $addend): self
 	{
@@ -117,7 +127,7 @@ class Number extends Value
 	 * Converts the subtrahend to an int, and then subtract it from $this.
 	 *
 	 * @param Value $subtrahend The number to subtract from `$this`.
-	 * @return Value The result of the subtraction.
+	 * @return self The result of the subtraction.
 	 **/
 	public function sub(Value $subtrahend): self
 	{
@@ -128,7 +138,7 @@ class Number extends Value
 	 * Converts the multiplicand to an int, and then multiplies $this by it.
 	 *
 	 * @param Value $multiplicand The number by which `$this` will be multiplied.
-	 * @return Value The result of the multiplication.
+	 * @return self The result of the multiplication.
 	 **/
 	public function mul(Value $multiplicand): self
 	{
@@ -139,7 +149,7 @@ class Number extends Value
 	 * Converts the divisor to an int, and then divides $this by it.
 	 *
 	 * @param Value $divisor The number by which `$this` will be divided.
-	 * @return Value The result of the division.
+	 * @return self The result of the division.
 	 * @throws Exception If the divisor is zero.
 	 **/
 	public function div(Value $divisor): self
@@ -157,7 +167,7 @@ class Number extends Value
 	 * Converts the base to an int, and then modulos $this by it.
 	 *
 	 * @param Value $base The number by which `$this` will be modulo'd.
-	 * @return Value The result of the modular division.
+	 * @return self The result of the modular division.
 	 * @throws Exception If the base is zero.
 	 **/
 	public function mod(Value $base): self
@@ -175,7 +185,7 @@ class Number extends Value
 	 * Converts the exponent to an int, then raises $this by it.
 	 *
 	 * @param Value $exponent The number by which `$this` will be raised.
-	 * @return Value The result of the exponentiation.
+	 * @return self The result of the exponentiation.
 	 **/
 	public function pow(Value $exponentiation): self
 	{
@@ -203,15 +213,5 @@ class Number extends Value
 	public function eql(Value $value): bool
 	{
 		return is_a($value, get_class($this)) && $this->data === $value->data;
-	}
-
-	/**
-	 * Returns the
-	 *
-	 * @return bool
-	 **/
-	public function ascii(): Str
-	{
-		return new Str(chr($this->data));
 	}
 }

@@ -13,7 +13,7 @@ class Func extends Value
 	 *
 	 * @var array[string => [func, callable]]
 	 **/
-	private static $KNOWN = [];
+	private static array $KNOWN = [];
 
 	/**
 	 * Registers a new function, overwriting the previous one (if it existed).
@@ -37,11 +37,11 @@ class Func extends Value
 	 * Parses a Func and its arguments from the stream, returning null if no function is found.
 	 *
 	 * @param Stream $stream The stream to read from.
-	 * @return null|Value Returns the parsed Func if it's able to be parsed, otherwise `null`.
+	 * @return ?self Returns the parsed Func if it's able to be parsed, otherwise `null`.
 	 * @throws Exception Thrown if an unknown function name is parsed.
 	 * @throws Exception Thrown if an argument is missing from the function.
 	 **/
-	public static function parse(Stream $stream): ?Value
+	public static function parse(Stream $stream): ?self
 	{
 		$match = $stream->match('[A-Z]+|\S');
 
@@ -77,21 +77,21 @@ class Func extends Value
 	 *
 	 * @var callable
 	 **/
-	private $func;
+	private callable $func;
 
 	/**
 	 * The arguments for this function.
 	 *
 	 * @var Value[]
 	 **/
-	private $args;
+	private array $args;
 
 	/**
 	 * The name of this function; used for debugging.
 	 *
 	 * @var string
 	 **/
-	private $name;
+	private string $name;
 
 	/**
 	 * Creates a new Func.
@@ -150,6 +150,11 @@ class Func extends Value
 		return $this->run()->toBool();
 	}
 
+	/**
+	 * Runs this function, then converts the returned value to an array.
+	 *
+	 * @return array The result array representation of the result of running this function.
+	 **/
 	public function toArray(): array
 	{
 		return $this->run()->toArray();
@@ -172,8 +177,9 @@ class Func extends Value
 	}
 
 	/**
-	 * Checks to see if `$value` is a `Boolean` and equal to `$this`.
+	 * Checks to see if `$value` is identical to `$this`.
 	 *
+	 * @param Value $value The value to compare to.
 	 * @return bool
 	 **/
 	public function eql(Value $value): bool
@@ -189,6 +195,7 @@ class Func extends Value
  **/
 Func::register('P', 0, function(): Value {
 	$line = fgets(STDIN);
+
 	if ($line === false) {
 		return new Nil();
 	}
@@ -199,7 +206,7 @@ Func::register('P', 0, function(): Value {
 /**
  * Get a random number from 0-4294967295 (ie 0xffffffff), inclusive.
  *
- * @return Value The random number.
+ * @return Number The random number.
  **/
 Func::register('R', 0, function(): Number {
 	return new Number(rand(0, 0xffffffff));
@@ -218,8 +225,8 @@ Func::register('E', 1, function(Value $text): Value {
 /**
  * Simply returns the parameter unevaluated.
  *
- * This is used to delay execution of code. When used in conjunction with `C` (ie `CALL`), a very basic form of
- * functions can be implemented (albeit with no parameter passing.)
+ * This is used to delay execution of code. When used in conjunction with `C` (ie `CALL`), a very
+ * basic form of functions can be implemented (albeit with no parameter passing.)
  *
  * @param Value $block The block to delay execution for.
  * @return Value Literally just returns `$block`.
@@ -231,8 +238,8 @@ Func::register('B', 1, function(Value $block): Value {
 /**
  * Runs the passed argument twice.
  *
- * When used in conjunction with `B` (ie `BLOCK`), a very basic form of functions can be implemented (albeit with
- * parameter passing).
+ * When used in conjunction with `B` (ie `BLOCK`), a very basic form of functions can be implemented
+ * (albeit with no parameter passing).
  *
  * @param Value $block The vpiece of code to be executed twice.
  * @return Value The returned value of the second execution.
@@ -247,7 +254,7 @@ Func::register('C', 1, function(Value $block): Value {
  * The return status of the command is ignored, and the standard error is not captured.
  *
  * @param Value $command The entire shell command to be run.
- * @return Value The standard out of the command.
+ * @return Str The standard out of the command.
  **/
 Func::register('`', 1, function(Value $command): Str {
 	return new Str(shell_exec($command->run()) ?: "");
@@ -266,77 +273,105 @@ Func::register('Q', 1, function(Value $code): void {
 /**
  * Returns the logical negation of the argument.
  *
- * @param Value $arg The argument to negate.
- * @return Value The negation of `$arg`.
+ * @param Value $arg The argument to array.
+ * @return Boolean The negation of `$arg`.
  **/
 Func::register('!', 1, function(Value $arg): Boolean {
 	return new Boolean(!$arg->toBool());
 });
 
+/**
+ * Returns the numeric negation of the argument.
+ *
+ * @param Value $arg The argument to negate.
+ * @return Number The negation of `$arg`.
+ **/
 Func::register('~', 1, function(Value $arg): Number {
 	return new Number(-$arg->toInt());
 });
 
+/**
+ * Returns the `chr` or `ord` of its argument, depending on its type.
+ *
+ * @param Value $arg The argument to get the chr/ord of.
+ * @return Value The chr/ord of the argument.
+ **/
 Func::register('A', 1, function(Value $arg): Value {
 	return $arg->run()->ascii();
 });
 
 /**
- * Converts the argument into a string, then returns its length.
+ * Converts the argument into an array, then returns its length.
  *
- * @param Value $arg The argument to negate.
- * @return Value The negation of `$arg`.
+ * @param Value $array The argument to array.
+ * @return Number The length of `$array`
  **/
-Func::register('L', 1, function(Value $string): Number {
-	return new Number(count($string->toArray()));
+Func::register('L', 1, function(Value $array): Number {
+	return new Number(count($array->toArray()));
 });
 
 /**
- * Dumps its argument to stdout, after executing it. Used for debugging.
+ * Dumps its argument to stdout, after executing it.
  *
  * @param Value $arg The argument to dump.
  * @return Value The result of `run`ning the argument.
  **/
 Func::register('D', 1, function(Value $val): Value {
 	$val = $val->run();
-
 	echo $val->dump();
-
 	return $val;
 });
 
 /**
  * Writes the message to stdout.
  *
- * Normally, a newline is printed at the end. However, If `$message` ends with a backslash, the backslash will be
- * stripped and the newline suppressed.
+ * Normally, a newline is printed at the end. However, If `$message` ends with a backslash, the
+ * backslash will be stripped and the newline suppressed.
  *
  * @param Value $arg The value to print out.
- * @return Value The result of running `$message`, but before converting it to a string.
+ * @return Nil
  **/
 Func::register('O', 1, function(Value $message): Nil {
-	$message = $message->run();
-	$string = (string) $message;
+	$message = (string) $message->run();
 
 	if (substr($string, -1) === '\\') {
 		echo substr($string, 0, -1);
 	} else {
-		echo $string . PHP_EOL;
+		echo $string, PHP_EOL;
 	}
 
 	return new Nil();
 });
 
+/**
+ * Creates a new Ary with just its argument.
+ *
+ * @param Value $value The value to run and then insert into an array
+ * @return Ary An array containing just `$value`.
+ **/
 Func::register(',', 1, function(Value $value): Ary {
 	return new Ary([$value->run()]);
 });
 
-Func::register('[', 1, function(Value $value): Value {
-	return $value->run()->head();
+/**
+ * Gets the first character/element of `$container`.
+ *
+ * @param Value $container The value to get the first character/element of
+ * @return Value either a Str containing the first char of a Str, or the first element of a Ary.
+ **/
+Func::register('[', 1, function(Value $container): Value {
+	return $container->run()->head();
 });
 
-Func::register(']', 1, function(Value $value): Value {
-	return $value->run()->tail();
+/**
+ * Gets everything but first character/element of `$container`.
+ *
+ * @param Value $container The value to get everything but first character/element of
+ * @return Value Either a Str containing the everything but the first char, or an Ary containing
+ *               everything but the first element.
+ **/
+Func::register(']', 1, function(Value $container): Value {
+	return $container->run()->tail();
 });
 
 /**
@@ -399,7 +434,7 @@ Func::register('%', 2, function(Value $lhs, Value $rhs): Value {
  *
  * @param Value $lhs
  * @param Value $rhs
- * @return Value The result of raising`$lhs` to the `$rhs`th power.
+ * @return Value The result of raising `$lhs` to the `$rhs`th power.
  **/
 Func::register('^', 2, function(Value $lhs, Value $rhs): Value {
 	return $lhs->run()->pow($rhs->run());
@@ -410,7 +445,7 @@ Func::register('^', 2, function(Value $lhs, Value $rhs): Value {
  *
  * @param Value $lhs
  * @param Value $rhs
- * @return Value True if `$lhs` is less than `$rhs`, false otherwise.
+ * @return Boolean True if `$lhs` is less than `$rhs`, false otherwise.
  **/
 Func::register('<', 2, function(Value $lhs, Value $rhs): Boolean {
 	return new Boolean($lhs->run()->lth($rhs->run()));
@@ -421,7 +456,7 @@ Func::register('<', 2, function(Value $lhs, Value $rhs): Boolean {
  *
  * @param Value $lhs
  * @param Value $rhs
- * @return Value True if `$lhs` is greater than `$rhs`, false otherwise.
+ * @return Boolean True if `$lhs` is greater than `$rhs`, false otherwise.
  **/
 Func::register('>', 2, function(Value $lhs, Value $rhs): Boolean {
 	return new Boolean($lhs->run()->gth($rhs->run()));
@@ -432,7 +467,7 @@ Func::register('>', 2, function(Value $lhs, Value $rhs): Boolean {
  *
  * @param Value $lhs
  * @param Value $rhs
- * @return Value True if `$lhs` is equal to `$rhs`, false otherwise.
+ * @return Boolean True if `$lhs` is equal to `$rhs`, false otherwise.
  **/
 Func::register('?', 2, function(Value $lhs, Value $rhs): Boolean {
 	return new Boolean($lhs->run()->eql($rhs->run()));
@@ -481,7 +516,7 @@ Func::register(';', 2, function(Value $lhs, Value $rhs): Value {
  *
  * @param Value $cond The condition to run before each body execution.
  * @param Value $body The code to be run if the condition happens to be true.
- * @return Value If the body was never run, `Nil` is returned. Otherwise, the last result of the body is.
+ * @return Nil
  **/
 Func::register('W', 2, function(Value $cond, Value $body): Nil {
 	while ($cond->run()->toBool()) {
@@ -494,14 +529,14 @@ Func::register('W', 2, function(Value $cond, Value $body): Nil {
 /**
  * Assigns a variable, globally.
  *
- * If `$var` is not an `Identifier`, it will be executed, converted to a string, and then into an identifier. Any
- * previous value is discarded.
+ * If `$var` is not an `Identifier`, it will be executed, converted to a string, and then into an
+ * identifier. Any previous value is discarded.
  *
  * Note that all identifiers in Knight are global---there are no local variables.
  *
  * @param Value $var The value to assign to.
  * @param Value $val The value to set `$var` to.
- * @return Value Simply returns `$val`.
+ * @return Value The return value of executing `$val`.
  **/
 Func::register('=', 2, function(Value $var, Value $val): Value {
 	if (!is_a($var, '\Knight\Identifier')) {
@@ -509,9 +544,7 @@ Func::register('=', 2, function(Value $var, Value $val): Value {
 	}
 
 	$val = $val->run();
-
 	$var->assign($val);
-
 	return $val;
 });
 
@@ -528,34 +561,35 @@ Func::register('I', 3, function(Value $cond, Value $iftrue, Value $iffalse): Val
 });
 
 /**
- * Fetches a substring of a string.
+ * Fetches a substring/array of a string/array.
  *
- * If `$start` is greater than `$string`'s length, an empty string is returned.
- * If `$length` is greater than `$string`'s length, it's assumed to be `$string`'s length.
+ * If `$start` is greater than `$container`'s length, an empty container is returned.
+ * If `$length` is greater than `$container`'s length, it's assumed to be `$container`'s length.
  *
- * @param Value $string The string to fetch from.
- * @param Value $start The start of the substring.
- * @param Value $length The length of the substring.
- * @return Value The substring specified.
+ * @param Value $container The container to fetch from.
+ * @param Value $start The start of the "subcontainer".
+ * @param Value $length The length of the "subcontainer".
+ * @return Value The "subcontainer" specified.
  **/
 Func::register('G', 3, function(Value $container, Value $start, Value $length): Value {
 	return $container->run()->get($start->run(), $length->run());
 });
 
 /**
- * Returns a new string with a specific range replaced by a substring.
+ * Returns a new Str/Ary with a specific range replaced by `$replacement`.
  *
- * If `$start` is greater than `$string`'s length, the substring is appended to the end.
- * If `$length` is greater than `$string`'s length, it's assumed to be the length of the string
+ * If `$start` is greater than `$container`'s length, the "subcontainer" is appended to the end.
+ * If `$length` is greater than `$container`'s length, it's assumed to be the length of the
+ * container
  *
  * Note that this actually returns a new string; the original string is unmodified.
  *
- * @param Value $string The string to replace.
+ * @param Value $container The string to replace.
  * @param Value $start The start of the replacement region.
  * @param Value $length The length of the replacement region.
- * @param Value $replacement The substring to use when replacing.
- * @return Value The updated sstring.
+ * @param Value $repl The "subcontainer" to use when replacing.
+ * @return Value The updated container.
  **/
-Func::register('S', 4, function(Value $container, Value $start, Value $length, Value $replacement): Value {
+Func::register('S', 4, function(Value $container, Value $start, Value $length, Value $repl): Value {
 	return $container->run()->set($start->run(), $length->run(), $replacement->run());
 });

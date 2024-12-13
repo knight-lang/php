@@ -41,11 +41,11 @@ class Number extends Value
 	/**
 	 * Converts this Number to a string.
 	 *
-	 * Note that the resulting string should not be run directly via eval (ie don't do `EVAL + "" number`). This is
-	 * because negative numbers will have a leading `-` and `-1` is interpreted (in Knight) as `- 1 <missing second
-	 * operand>`.
+	 * Note that the string should not be run directly via eval (eg don't do `EVAL + "" number`).
+	 * This is because negative numbers will have a leading `-` and `-1` is interpreted (in Knight
+	 *  as `- 1 <missing second operand>`.
 	 *
-	 * @return string Either "true" or "false", depending on whether this is true or false.
+	 * @return string A base-10 representation of the string, possibly with a leading `-`.
 	 **/
 	public function __toString(): string
 	{
@@ -72,6 +72,11 @@ class Number extends Value
 		return (bool) $this->data;
 	}
 
+	/**
+	 * Converts this Number to an array.
+	 *
+	 * @return array All the digits in the number.
+	 **/
 	public function toArray(): array
 	{
 		if (!$this->data) {
@@ -181,8 +186,8 @@ class Number extends Value
 	 * Converts the $rhs to an int, then compares $this to it.
 	 *
 	 * @param Value $rhs The number by which `$this` will be raised.
-	 * @return int Returns a number less than, equal to, or greater than 0, depending on if `$rhs`, after conversion to
-	 * an int, is less than, equal to, or greater than `$this`.
+	 * @return int Returns a number less than, equal to, or greater than 0, depending on if `$rhs`,
+	 *             after conversion to an int, is less than, equal to, or greater than `$this`.
 	 **/
 	public function cmp(Value $rhs): int
 	{
@@ -192,6 +197,7 @@ class Number extends Value
 	/**
 	 * Checks to see if `$value` is a `Number` and equal to `$this`.
 	 *
+	 * @param Value $value The value to compare against.
 	 * @return bool
 	 **/
 	public function eql(Value $value): bool
@@ -199,6 +205,11 @@ class Number extends Value
 		return is_a($value, get_class($this)) && $this->data === $value->data;
 	}
 
+	/**
+	 * Returns the
+	 *
+	 * @return bool
+	 **/
 	public function ascii(): Str
 	{
 		return new Str(chr($this->data));

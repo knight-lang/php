@@ -75,6 +75,7 @@ class Nil extends Value
 	/**
 	 * Checks to see if `$value` is a `Nil` and equal to `$this`.
 	 *
+	 * @param Value $value The value to compare against.
 	 * @return bool
 	 **/
 	public function eql(Value $value): bool

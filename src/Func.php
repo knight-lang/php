@@ -179,7 +179,7 @@ class Func extends Value
 	/**
 	 * Checks to see if `$value` is identical to `$this`.
 	 *
-	 * @param Value $value The value to compare to.
+	 * @param Value $value The value to compare against.
 	 * @return bool
 	 **/
 	public function eql(Value $value): bool

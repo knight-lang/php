@@ -66,6 +66,7 @@ abstract class Value
 	/**
 	 * Checks to see if `$this` is equal to `$value`.
 	 *
+	 * @param Value $value The value to compare against.
 	 * @return bool
 	 **/
 	abstract public function eql(Value $value): bool;

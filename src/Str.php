@@ -82,7 +82,7 @@ class Str extends Value
 	}
 
 	/**
-	 * Gets a string representation of this class, for debugging purposes.
+	 * Gets a string representation of this class
 	 *
 	 * @return string
 	 **/
@@ -161,7 +161,7 @@ class Str extends Value
 		return new self(substr($this->data, 1));
 	}
 
-	public function ascii(): Value
+	public function ascii(): Number
 	{
 		return new Number(ord($this->data));
 	}

@@ -72,7 +72,7 @@ class Boolean extends Value
 	}
 
 	/**
-	 * Gets a string representation of this class, for debugging purposes.
+	 * Gets a string representation of this class
 	 *
 	 * @return string
 	 **/
@@ -98,6 +98,7 @@ class Boolean extends Value
 	/**
 	 * Checks to see if `$value` is a `Boolean` and equal to `$this`.
 	 *
+	 * @param Value $value The value to compare to.
 	 * @return bool
 	 **/
 	public function eql(Value $value): bool

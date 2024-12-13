@@ -115,7 +115,7 @@ class Identifier extends Value
 	}
 
 	/**
-	 * Gets a string representation of this class, for debugging purposes.
+	 * Gets a string representation of this class
 	 *
 	 * @return string
 	 **/

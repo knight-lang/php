@@ -88,7 +88,7 @@ class Number extends Value
 	}
 
 	/**
-	 * Gets a string representation of this class, for debugging purposes.
+	 * Gets a string representation of this class
 	 *
 	 * @return string
 	 **/
@@ -199,7 +199,7 @@ class Number extends Value
 		return is_a($value, get_class($this)) && $this->data === $value->data;
 	}
 
-	public function ascii(): Value
+	public function ascii(): Str
 	{
 		return new Str(chr($this->data));
 	}

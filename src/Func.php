@@ -156,7 +156,7 @@ class Func extends Value
 	}
 
 	/**
-	 * Gets a string representation of this class, for debugging purposes.
+	 * Gets a string representation of this class
 	 *
 	 * @return string
 	 **/
@@ -201,7 +201,7 @@ Func::register('P', 0, function(): Value {
  *
  * @return Value The random number.
  **/
-Func::register('R', 0, function(): Value {
+Func::register('R', 0, function(): Number {
 	return new Number(rand(0, 0xffffffff));
 });
 
@@ -249,7 +249,7 @@ Func::register('C', 1, function(Value $block): Value {
  * @param Value $command The entire shell command to be run.
  * @return Value The standard out of the command.
  **/
-Func::register('`', 1, function(Value $command): Value {
+Func::register('`', 1, function(Value $command): Str {
 	return new Str(shell_exec($command->run()) ?: "");
 });
 
@@ -269,11 +269,11 @@ Func::register('Q', 1, function(Value $code): void {
  * @param Value $arg The argument to negate.
  * @return Value The negation of `$arg`.
  **/
-Func::register('!', 1, function(Value $arg): Value {
+Func::register('!', 1, function(Value $arg): Boolean {
 	return new Boolean(!$arg->toBool());
 });
 
-Func::register('~', 1, function(Value $arg): Value {
+Func::register('~', 1, function(Value $arg): Number {
 	return new Number(-$arg->toInt());
 });
 
@@ -287,7 +287,7 @@ Func::register('A', 1, function(Value $arg): Value {
  * @param Value $arg The argument to negate.
  * @return Value The negation of `$arg`.
  **/
-Func::register('L', 1, function(Value $string): Value {
+Func::register('L', 1, function(Value $string): Number {
 	return new Number(count($string->toArray()));
 });
 
@@ -314,7 +314,7 @@ Func::register('D', 1, function(Value $val): Value {
  * @param Value $arg The value to print out.
  * @return Value The result of running `$message`, but before converting it to a string.
  **/
-Func::register('O', 1, function(Value $message): Value {
+Func::register('O', 1, function(Value $message): Nil {
 	$message = $message->run();
 	$string = (string) $message;
 
@@ -324,10 +324,10 @@ Func::register('O', 1, function(Value $message): Value {
 		echo $string . PHP_EOL;
 	}
 
-	return $message;
+	return new Nil();
 });
 
-Func::register(',', 1, function(Value $value): Value {
+Func::register(',', 1, function(Value $value): Ary {
 	return new Ary([$value->run()]);
 });
 
@@ -413,7 +413,7 @@ Func::register('^', 2, function(Value $lhs, Value $rhs): Value {
  * @param Value $rhs
  * @return Value True if `$lhs` is less than `$rhs`, false otherwise.
  **/
-Func::register('<', 2, function(Value $lhs, Value $rhs): Value {
+Func::register('<', 2, function(Value $lhs, Value $rhs): Boolean {
 	return new Boolean($lhs->run()->lth($rhs->run()));
 });
 
@@ -424,7 +424,7 @@ Func::register('<', 2, function(Value $lhs, Value $rhs): Value {
  * @param Value $rhs
  * @return Value True if `$lhs` is greater than `$rhs`, false otherwise.
  **/
-Func::register('>', 2, function(Value $lhs, Value $rhs): Value {
+Func::register('>', 2, function(Value $lhs, Value $rhs): Boolean {
 	return new Boolean($lhs->run()->gth($rhs->run()));
 });
 
@@ -436,7 +436,7 @@ Func::register('>', 2, function(Value $lhs, Value $rhs): Value {
  * @param Value $rhs
  * @return Value True if `$lhs` is equal to `$rhs`, false otherwise.
  **/
-Func::register('?', 2, function(Value $lhs, Value $rhs): Value {
+Func::register('?', 2, function(Value $lhs, Value $rhs): Boolean {
 	return new Boolean($lhs->run()->eql($rhs->run()));
 });
 
@@ -485,14 +485,12 @@ Func::register(';', 2, function(Value $lhs, Value $rhs): Value {
  * @param Value $body The code to be run if the condition happens to be true.
  * @return Value If the body was never run, `Nil` is returned. Otherwise, the last result of the body is.
  **/
-Func::register('W', 2, function(Value $cond, Value $body): Value {
-	$ret = null;
-
+Func::register('W', 2, function(Value $cond, Value $body): Nil {
 	while ($cond->run()->toBool()) {
-		$ret = $body->run();
+		$body->run();
 	}
 
-	return is_null($ret) ? new Nil() : $ret;
+	return new Nil();
 });
 
 /**

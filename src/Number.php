@@ -74,6 +74,10 @@ class Number extends Value
 
 	public function toArray(): array
 	{
+		if (!$this->data) {
+			return [$this];
+		}
+
 		$ary = array();
 
 		for ($ele = (int) $this->data; $ele; $ele = intdiv($ele, 10)) {
@@ -193,5 +197,10 @@ class Number extends Value
 	public function eql(Value $value): bool
 	{
 		return is_a($value, get_class($this)) && $this->data === $value->data;
+	}
+
+	public function ascii(): Value
+	{
+		return new Str(chr($this->data));
 	}
 }

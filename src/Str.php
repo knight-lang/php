@@ -88,8 +88,7 @@ class Str extends Value
 	 **/
 	public function dump(): string
 	{
-		// TODO
-		return "String($this->data)";
+		return '"' . addcslashes($this->data, "\r\n\t\"\\") . '"';
 	}
 
 	public function toArray(): array
@@ -160,5 +159,10 @@ class Str extends Value
 		}
 
 		return new self(substr($this->data, 1));
+	}
+
+	public function ascii(): Value
+	{
+		return new Number(ord($this->data));
 	}
 }

@@ -150,6 +150,11 @@ class Func extends Value
 		return $this->run()->toBool();
 	}
 
+	public function toArray(): array
+	{
+		return $this->run()->toArray();
+	}
+
 	/**
 	 * Gets a string representation of this class, for debugging purposes.
 	 *
@@ -263,6 +268,14 @@ Func::register('!', 1, function(Value $arg): Value {
 	return new Boolean(!$arg->toBool());
 });
 
+Func::register('~', 1, function(Value $arg): Value {
+	return new Number(-$arg->toInt());
+});
+
+Func::register('A', 1, function(Value $arg): Value {
+	return $arg->run()->ascii();
+});
+
 /**
  * Converts the argument into a string, then returns its length.
  *
@@ -270,7 +283,7 @@ Func::register('!', 1, function(Value $arg): Value {
  * @return Value The negation of `$arg`.
  **/
 Func::register('L', 1, function(Value $string): Value {
-	return new Number(strlen($string->run()));
+	return new Number(count($string->toArray()));
 });
 
 /**

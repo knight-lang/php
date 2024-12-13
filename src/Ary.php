@@ -57,7 +57,12 @@ class Ary extends Value
 
 	public function mul(Value $rhs): self
 	{
-		return new self(array_merge($this->data, $rhs->toArray()));
+		$ary = array();
+		$amount = $rhs->toInt();
+		while ($amount--) {
+			$ary = array_merge($ary, $this->data);
+		}
+		return new self($ary);
 	}
 
 	public function eql(Value $value): bool

@@ -11,7 +11,7 @@ class Identifier extends Value
 	/**
 	 * The list of all known identifiers and their associated values.
 	 *
-	 * @var array[string => Value] 
+	 * @var array[string => Value]
 	 **/
 	private static $VARIABLES = [];
 
@@ -107,7 +107,6 @@ class Identifier extends Value
 	{
 		return $this->run()->toBool();
 	}
-
 
 	public function toArray(): array
 	{

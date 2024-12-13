@@ -138,7 +138,6 @@ class Ary extends Value
 		return true;
 	}
 
-
 	/**
 	 * Compares `$this` against `$value->toArray()`, according to the Knight specs.
 	 *
@@ -211,7 +210,6 @@ class Ary extends Value
 	{
 		return new self(array_slice($this->data, $start->toInt(), $length->toInt()));
 	}
-
 
 	/**
 	 * Replaces the range `[$start..$start + $length)` within `$this` with `$replacement` and returns

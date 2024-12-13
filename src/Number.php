@@ -41,7 +41,7 @@ class Number extends Value
 	/**
 	 * Converts this Number to a string.
 	 *
-	 * Note that the resulting string should not be run directly via eval (ie don't do `EVAL + "" number`). This is 
+	 * Note that the resulting string should not be run directly via eval (ie don't do `EVAL + "" number`). This is
 	 * because negative numbers will have a leading `-` and `-1` is interpreted (in Knight) as `- 1 <missing second
 	 * operand>`.
 	 *

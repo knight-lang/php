@@ -66,6 +66,11 @@ class Boolean extends Value
 		return $this->data;
 	}
 
+	/**
+	 * Converts this Boolean to an bool.
+	 *
+	 * @return array Empty if falsey, or an array containing just it if truthy.
+	 **/
 	public function toArray(): array
 	{
 		return $this->data ? [$this] : [];
@@ -84,16 +89,17 @@ class Boolean extends Value
 	/**
 	 * Converts the $rhs to an boolean, then compares $this to it.
 	 *
-	 * This will only return `true` if `$this` is false and `$rhs` is true, or `$this` is true and `$rhs` is false.
+	 * This will only return `true` if `$this` is false and `$rhs` is true, or `$this` is true and
+	 * `$rhs` is false.
 	 *
 	 * @param Value $rhs The boolean to compare to.
-	 * @return int Returns a number less than, equal to, or greater than 0, depending on if `$rhs`, after conversion to
-	 * an int, is less than, equal to, or greater than `$this`.
+	 * @return int Returns a number less than, equal to, or greater than 0, depending on if `$rhs`,
+	 *             after conversion to an int, is less than, equal to, or greater than `$this`.
 	 **/
 	public function cmp(Value $rhs): int
 	{
 		return $this->data <=> $rhs->toBool();
-	}	
+	}
 
 	/**
 	 * Checks to see if `$value` is a `Boolean` and equal to `$this`.

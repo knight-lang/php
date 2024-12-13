@@ -59,7 +59,7 @@ class Func extends Value
 
 		$args = [];
 
-		for ($i = 0; $i < $arity; $i++) { 
+		for ($i = 0; $i < $arity; $i++) {
 			$next = Value::parse($stream);
 
 			if (!isset($next)) {
@@ -111,7 +111,7 @@ class Func extends Value
 	/**
 	 * Executes this function, and returns the result of it.
 	 *
-	 * While this function itself doesn't directly throw exceptions, `$func` may do so. 
+	 * While this function itself doesn't directly throw exceptions, `$func` may do so.
 	 *
 	 * @return Value The result of running the function.
 	 **/
@@ -231,7 +231,7 @@ Func::register('B', 1, function(Value $block): Value {
 /**
  * Runs the passed argument twice.
  *
- * When used in conjunction with `B` (ie `BLOCK`), a very basic form of functions can be implemented (albeit with 
+ * When used in conjunction with `B` (ie `BLOCK`), a very basic form of functions can be implemented (albeit with
  * parameter passing).
  *
  * @param Value $block The vpiece of code to be executed twice.
@@ -339,7 +339,6 @@ Func::register(']', 1, function(Value $value): Value {
 	return $value->run()->tail();
 });
 
-
 /**
  * Calls the `add` function on `$lhs` with `$rhs`'s value.
  *
@@ -427,7 +426,6 @@ Func::register('<', 2, function(Value $lhs, Value $rhs): Boolean {
 Func::register('>', 2, function(Value $lhs, Value $rhs): Boolean {
 	return new Boolean($lhs->run()->gth($rhs->run()));
 });
-
 
 /**
  * Checks to see if the two arguments are equal.

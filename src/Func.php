@@ -200,7 +200,15 @@ Func::register('P', 0, function(): Value {
 		return new Nil();
 	}
 
-	return new Str(rtrim($line, "\r\n"));
+	if (substr($line, strlen($line) - 1) == "\n") {
+		$line = substr($line, 0, strlen($line) - 1);
+	}
+
+	if (substr($line, strlen($line) - 1) == "\r") {
+		$line = substr($line, 0, strlen($line) - 1);
+	}
+
+	return new Str($line);
 });
 
 /**
